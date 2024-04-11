@@ -53,22 +53,55 @@ app.post( '/api/posts', (req,res) => {
     });
 });
 // UPDATE
-app.put('/api/posts/:id',(req, res) => {
-    // update ke posts.json
-    let post = posts.posts.find(i => i.id == req.params.id) ;
-    const params = {title: req.body.title, author: req.body.author};
-    post = {...post, ...params};
-    posts.posts.map(i => i.id == post.id ? post : i);
-    // update ke postsDetail
-    let postDetail = postsDetail.data.find(i => i.id == req.params.id) ;
-    const paramsDetail = {content: req.body.content, dateCreated: req.body.dateCreated, label: req.body.label};
-    postDetail = {...postDetail, ...paramsDetail};
-    postsDetail.data.map(i => i.id == postDetail.id ? postDetail : i);
+app.put('/api/posts',(req, res) => {
+    // // update ke posts.json
+    // let post = posts.posts.find(i => i.id == req.params.id) ;
+    // const params = {title: req.body.title, author: req.body.author};
+    // post = {...post, ...params};
+    // posts.posts.map(i => i.id == post.id ? post : i);
+    // // update ke postsDetail
+    // let postDetail = postsDetail.data.find(i => i.id == req.params.id) ;
+    // const paramsDetail = {content: req.body.content, dateCreated: req.body.dateCreated, label: req.body.label};
+    // postDetail = {...postDetail, ...paramsDetail};
+    // postsDetail.data.map(i => i.id == postDetail.id ? postDetail : i);
 
-    res.status(200).json({
-        status:"succes",
-        data: req.body
+    // res.status(200).json({
+    //     status:"success",
+    //     data: req.body
+    // });
+    // 1. ambil data yang dikirim user
+    const id = req.params.id;
+    const payload = req.body;
+    const {title, author, content, dateCreated, label} = payload;
+    // 2. cari data yang sudah ada
+    const oldDataPost = posts.posts.find(function (value){
+        const isMatched = value.id === id;
+        return isMatched;
     });
+    const oldDataPostDetail = postsDetail.data.find(function (value){
+        const isMatched = value.id === id;
+        return isMatched;
+    });
+    // 3. ganti data yang lama dengan data yang baru
+    const newPost = { ...oldDataPost, title, author};
+    const newPostDetail = { ...oldDataPostDetail, content, dateCreated, label };
+    // 3.1 cari index dari data yang sudah ada
+    // const indexPost = posts.posts.indexOf(function(value){
+    //     const isMatched = value.id == id;
+    //     return isMatched;
+    // })
+    // const indexPostDetail = postsDetail.data.indexOf(function(value){
+    //     const isMatched = value.id == id;
+    //     return isMatched;
+    // })
+    // console.log(indexPost);
+    // console.log(indexPostDetail);
+    // 3.2 replace data di index tersebut dengan data baru
+    posts.posts[newPost.id - 1] = newPost;
+    postsDetail.data[newPostDetail.id - 1] = newPostDetail;
+    // 4. kirim respons ke user
+    res.status(200).json(payload);
+    // masih error. lihat ulang video live chapter 6 fd 5
 });
 // DELETE
 app.delete('/api/posts/:id', (req, res) => {
