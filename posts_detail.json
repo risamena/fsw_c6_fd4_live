@@ -1,0 +1,22 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "content": "Web programming merupakan .....",
+            "dateCreated": "2024-01-01",
+            "label": "HTML"
+        },
+        {
+            "id": 2,
+            "content": "Psikososial merupakan .....",
+            "dateCreated": "2024-02-02",
+            "label": "Psikologi"
+        },
+        {
+            "id": 3,
+            "content": "Musik Gereja merupakan .....",
+            "dateCreated": "2024-03-03",
+            "label": "Religi"
+        }
+    ]
+}
