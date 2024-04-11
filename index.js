@@ -4,6 +4,9 @@ const PORT = 4646;
 app.use(express.urlencoded());
 app.set('view engine', 'ejs') //coba ejs
 app.use(express.static('public')); // untuk  menampilkan file di public
+// Coba Morgan
+const morgan = require('morgan');
+app.use(morgan('dev'));
 
 // data
 const posts = require('./posts.json');
@@ -51,8 +54,16 @@ app.post( '/api/posts', (req,res) => {
 });
 // UPDATE
 // DELETE
-app.delete
+// app.delete
 
+// internal server error handler
+app.use( function(err, req, res, next){
+    console.log(err);
+    res.status(500).json({
+        status: 'fail',
+        errors: err.message
+    });
+});
 // running server
 app.listen(PORT, () => {
     console.log( `Server is listening on port http://localhost:${PORT}`);
