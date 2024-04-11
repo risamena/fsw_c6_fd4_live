@@ -56,12 +56,21 @@ app.post( '/api/posts', (req,res) => {
 // DELETE
 // app.delete
 
+// using morgan
 // internal server error handler
 app.use( function(err, req, res, next){
     console.log(err);
     res.status(500).json({
         status: 'fail',
         errors: err.message
+    });
+
+});
+// 404 handler
+app.use((req, res, next) => {
+    res.status(404).json({
+        status: 'fail',
+        errors: 'Maaf, halaman tidak ditemukan!'
     });
 });
 // running server
