@@ -53,8 +53,32 @@ app.post( '/api/posts', (req,res) => {
     });
 });
 // UPDATE
+app.put('/api/posts/:id',(req, res) => {
+    // update ke posts.json
+    let post = posts.posts.find(i => i.id == req.params.id) ;
+    const params = {title: req.body.title, author: req.body.author};
+    post = {...post, ...params};
+    posts.posts.map(i => i.id == post.id ? post : i);
+    // update ke postsDetail
+    let postDetail = postsDetail.data.find(i => i.id == req.params.id) ;
+    const paramsDetail = {content: req.body.content, dateCreated: req.body.dateCreated, label: req.body.label};
+    postDetail = {...postDetail, ...paramsDetail};
+    postsDetail.data.map(i => i.id == postDetail.id ? postDetail : i);
+
+    res.status(200).json({
+        status:"succes",
+        data: req.body
+    });
+});
 // DELETE
-// app.delete
+app.delete('/api/posts/:id', (req, res) => {
+    // 1. cari data di array berdasarkan id
+    posts.posts.filter(i => i.id != req.params.id);
+
+    res.status(200).json({
+        message: `Post dengan id ${req.params.id} berhasil dihapus`
+    });
+});
 
 // using morgan
 // internal server error handler
