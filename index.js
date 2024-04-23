@@ -1,6 +1,6 @@
 const express =  require('express');
 const app = express();
-const PORT = 4646;
+const PORT = process.env.PORT || 4646;
 app.use(express.urlencoded());
 app.set('view engine', 'ejs') //coba ejs
 app.use(express.static('public')); // untuk  menampilkan file di public
